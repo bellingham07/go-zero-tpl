@@ -1,8 +1,8 @@
 package {{.PkgName}}
 
 import (
-    "github.com/HiBugEnterprise/gotools/errorx"
-	"github.com/HiBugEnterprise/gotools/httpc"
+   "github.com/bellingham07/go-tool/errorx"
+	"github.com/bellingham07/go-tool/httpc"
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
