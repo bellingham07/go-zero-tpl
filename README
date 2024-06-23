@@ -1,0 +1,3 @@
+todo
+1.Initialize MySQL and Redis configurations to service_context file
+2.init auth middleware
