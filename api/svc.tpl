@@ -1,36 +1,34 @@
 package svc
 
 import (
-	"database/sql"
-	"github.com/redis/go-redis/v9"
-	"github.com/segmentio/kafka-go"
-	"github.com/zeromicro/go-zero/rest"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
-	"gorm.io/gorm/schema"
-	"log"
-	"time"
-	"zero-chat/api/internal/config"
-	"zero-chat/api/internal/middleware"
-	"zero-chat/api/internal/model"
+    {{.configImport}}
+    "database/sql"
+    "github.com/redis/go-redis/v9"
+    "github.com/segmentio/kafka-go"
+    "github.com/zeromicro/go-zero/rest"
+    "gorm.io/driver/mysql"
+    "gorm.io/gorm"
+    "gorm.io/gorm/logger"
+    "gorm.io/gorm/schema"
+    "log"
+    "time"
 )
 
 type ServiceContext struct {
-	Config       config.Config
-	Authority    rest.Middleware
-	Redis        *redis.Client
-	DB           *gorm.DB
-	KafkaReader  *kafka.Reader
-	KafkaWriter  *kafka.Writer
+    Config {{.config}}
+    {{.middleware}}
+    Redis        *redis.Client
+   	DB           *gorm.DB
+   	KafkaReader  *kafka.Reader
+   	KafkaWriter  *kafka.Writer
 }
 
-func NewServiceContext(c config.Config) *ServiceContext {
-	db := Init(c)
+func NewServiceContext(c {{.config}}) *ServiceContext {
+    db := Init(c)
 	rds := InitRedis(c)
 	return &ServiceContext{
 		Config:       c,
-		Authority:    middleware.NewAuthorityMiddleware(c.Auth.AccessSecret).Handle,
+		{{.middlewareAssignment}}
 		Redis:        rds,
 		DB:           db,
 		KafkaReader:  InitKafkaReader(c),
@@ -48,6 +46,7 @@ func InitKafkaWriter(c config.Config) *kafka.Writer {
 		AllowAutoTopicCreation: true, // 一般交由运维管理，即实际开发应该是false
 	}
 }
+
 func InitKafkaReader(c config.Config) *kafka.Reader {
 	return kafka.NewReader(kafka.ReaderConfig{
 		Brokers:        []string{c.Kafka.Addr},
