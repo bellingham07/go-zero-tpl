@@ -1,0 +1,4 @@
+1.自定义svc和middleware
+    1.1 kafka忘记写在config里面了
+    1.2 把context.tpl->svc.tpl
+2.忘了是什么了,mad
