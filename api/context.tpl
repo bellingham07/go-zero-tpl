@@ -28,7 +28,7 @@ func NewServiceContext(c {{.config}}) *ServiceContext {
 	rds := InitRedis(c)
 	return &ServiceContext{
 		Config:       c,
-		{{.middlewareAssignment}}
+		Authority:    middleware.NewAuthorityMiddleware(c.Auth.AccessSecret).Handle,
 		Redis:        rds,
 		DB:           db,
 		KafkaReader:  InitKafkaReader(c),

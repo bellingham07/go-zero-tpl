@@ -1,6 +1,9 @@
 package config
 
-import {{.authImport}}
+import (
+	"github.com/zeromicro/go-zero/core/stores/redis"
+	import {{.authImport}}
+)
 
 type Config struct {
 	rest.RestConf
